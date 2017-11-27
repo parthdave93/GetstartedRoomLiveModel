@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
+import com.parthdave.room.ui.activity.ListingPagedScreenActivity;
 import com.parthdave.room.ui.activity.ListingScreenActivity;
 import com.parthdave.tutorial1preference.Tutorial1Preference;
 
@@ -21,6 +22,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onRoomDatabaseClickEvent(View view){
-        startActivity(new Intent(this, ListingScreenActivity.class));
+        startActivity(new Intent(this, ListingPagedScreenActivity.class));
     }
 }

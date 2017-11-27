@@ -8,6 +8,10 @@
         android:supportsRtl="true">
         <activity android:name=".ui.activity.ListingScreenActivity">
         </activity>
+
+
+        <activity android:name=".ui.activity.ListingPagedScreenActivity">
+        </activity>
     </application>
 
 </manifest>

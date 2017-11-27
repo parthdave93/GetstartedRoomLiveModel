@@ -3,10 +3,12 @@ package com.parthdave.room.database.dbmodels;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
+import android.arch.persistence.room.Relation;
 
 import com.parthdave.room.database.converters.PropertyChangeCallback;
 
 import java.sql.Date;
+import java.util.List;
 
 import io.reactivex.Observable;
 
@@ -25,10 +27,12 @@ public class Persons {
     private boolean isDeleted;
     private Date createdAt;
     private Date updatedAt;
+//    @Relation(parentColumn = "id", entityColumn = "user_id")
+//    private List<Vehicle> vehicles;
 
 
     public String getName() {
-        return name;
+        return name + " "+ id;
     }
 
     public void setName(String name) {
@@ -37,7 +41,7 @@ public class Persons {
     }
 
     private void notifyPropertyChanged(Integer ids) {
-        if(propertyChangeCallback!=null)
+        if (propertyChangeCallback != null)
             propertyChangeCallback.onPropertyChange(ids);
     }
 
@@ -72,4 +76,19 @@ public class Persons {
     public void setPropertyChangeCallback(PropertyChangeCallback propertyChangeCallback) {
         this.propertyChangeCallback = propertyChangeCallback;
     }
+
+    /*public List<Vehicle> getVehicles() {
+        return vehicles;
+    }
+
+
+    public String getVehiclesCount() {
+        if (vehicles == null)
+            return "0 Vehicles";
+        return vehicles + " Vehicles";
+    }
+
+    public void setVehicles(List<Vehicle> vehicles) {
+        this.vehicles = vehicles;
+    }*/
 }

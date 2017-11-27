@@ -1,5 +1,7 @@
 package com.parthdave.room.database;
 
+import android.arch.lifecycle.LiveData;
+import android.arch.paging.PagedList;
 import android.arch.persistence.room.Room;
 import android.content.Context;
 
@@ -37,6 +39,28 @@ public class DatabaseOperator {
         return this;
     }
 
+
+    /*public DatabaseOperator insertVehicle(Vehicle persons) {
+        Single.fromCallable((Callable<Object>) () -> {
+            roomDb.getPersonsDao().insertVehicle(persons);
+            return true;
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe((o) -> {
+        }, e -> e.printStackTrace());
+
+        return this;
+    }
+
+
+    public DatabaseOperator insertVehicle(List<Vehicle> persons) {
+        Single.fromCallable((Callable<Object>) () -> {
+            roomDb.getPersonsDao().insertVehicle(persons);
+            return true;
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe((o) -> {
+        }, e -> e.printStackTrace());
+
+        return this;
+    }*/
+
     public DatabaseOperator updatePerson(Persons persons) {
         Single.fromCallable((Callable<Object>) () -> {
             roomDb.getPersonsDao().updatePerson(persons);
@@ -47,12 +71,22 @@ public class DatabaseOperator {
         return this;
     }
 
-    public void fetchPersons(FetchData<Flowable<List<Persons>>> fetchData){
-        Single.fromCallable(() ->{
+    public void fetchPersons(FetchData<Flowable<List<Persons>>> fetchData) {
+        Single.fromCallable(() -> {
             Flowable<List<Persons>> personsList = roomDb.getPersonsDao().findAllPersons();
             return personsList;
         }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe((o) -> {
             fetchData.onNext(o);
         }, e -> e.printStackTrace());
+    }
+
+    public LiveData<PagedList<Persons>> fetchPersonsPaged() {
+        LiveData<PagedList<Persons>> personsList =
+                roomDb.getPersonsDao()
+                        .findPersonsPaged()
+                        .create(0,
+                                new PagedList.Config.Builder().setPageSize(10).setEnablePlaceholders(false).setInitialLoadSizeHint(10).build()
+                        );
+        return personsList;
     }
 }

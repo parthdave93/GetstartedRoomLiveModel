@@ -7,6 +7,7 @@ import android.arch.persistence.room.TypeConverters;
 import com.parthdave.room.database.dao.PersonsDao;
 import com.parthdave.room.database.converters.Converter;
 import com.parthdave.room.database.dbmodels.Persons;
+import com.parthdave.room.database.dbmodels.Vehicle;
 
 /**
  * Created by ParthDave on 10/22/2017.

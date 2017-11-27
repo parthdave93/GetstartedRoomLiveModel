@@ -1,30 +1,31 @@
 package com.parthdave.room.ui.activity;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.recyclerview.extensions.DiffCallback;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.parthdave.room.R;
 import com.parthdave.room.database.DatabaseOperator;
-import com.parthdave.room.database.FetchData;
 import com.parthdave.room.database.dbmodels.Persons;
-import com.parthdave.room.database.dbmodels.Vehicle;
 import com.parthdave.room.ui.adapter.ListAdapter;
+import com.parthdave.room.ui.adapter.LivePagedViewHolder;
+import com.parthdave.room.ui.adapter.PagedAdapter;
+import com.parthdave.room.utils.PersonListDifference;
 
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
 
-public class ListingScreenActivity extends AppCompatActivity implements ListAdapter.ListAction {
+public class ListingPagedScreenActivity extends AppCompatActivity implements PagedAdapter.ListAction {
 
     DatabaseOperator databaseOperator;
 
     private RecyclerView rvList;
-    private ListAdapter listAdapter;
+    private PagedAdapter listAdapter;
 
 
     @Override
@@ -37,13 +38,20 @@ public class ListingScreenActivity extends AppCompatActivity implements ListAdap
         databaseOperator = new DatabaseOperator(this);
 
 
-        listAdapter = new ListAdapter(this, this);
+        listAdapter = new PagedAdapter(this, new DiffCallback<Persons>() {
+            @Override
+            public boolean areItemsTheSame(@NonNull Persons oldItem, @NonNull Persons newItem) {
+                return oldItem.id == newItem.id;
+            }
+
+            @Override
+            public boolean areContentsTheSame(@NonNull Persons oldItem, @NonNull Persons newItem) {
+                return oldItem.getUpdatedAt().getTime() == newItem.getUpdatedAt().getTime();
+            }
+        });
         rvList.setLayoutManager(new LinearLayoutManager(this));
         rvList.setAdapter(listAdapter);
-        databaseOperator.fetchPersons(object -> {
-            listAdapter.setItems(object);
-        });
-
+        databaseOperator.fetchPersonsPaged().observe(this, object -> listAdapter.setList(object));
     }
 
     public void onAddClick(View view) {
@@ -54,12 +62,6 @@ public class ListingScreenActivity extends AppCompatActivity implements ListAdap
         persons.setName("asd");
 
         databaseOperator.insertPerson(persons);
-
-//        List<Vehicle> vehicles = new ArrayList<>();
-//
-//        vehicles.add(new Vehicle("try",persons.id));
-
-//        databaseOperator.insertVehicle(vehicles)
     }
 
     @Override

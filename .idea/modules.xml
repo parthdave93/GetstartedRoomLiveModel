@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/GetstartedRoomLiveModel.iml" filepath="$PROJECT_DIR$/GetstartedRoomLiveModel.iml" />
       <module fileurl="file://$PROJECT_DIR$/RxJavaAndRoom.iml" filepath="$PROJECT_DIR$/RxJavaAndRoom.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/room/room.iml" filepath="$PROJECT_DIR$/room/room.iml" />

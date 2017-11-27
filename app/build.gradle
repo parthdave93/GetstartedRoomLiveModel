@@ -9,6 +9,7 @@ android {
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -32,4 +33,6 @@ dependencies {
     testCompile 'junit:junit:4.12'
     implementation project(":tutorial1preference")
     implementation project(":room")
+    compile 'com.android.support:multidex:1.0.2'
+
 }
